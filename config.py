@@ -30,6 +30,12 @@ class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
     SESSION_COOKIE_SECURE = True
+    # Use in-memory SQLite for serverless (Vercel, etc.)
+    # Override with DATABASE_URL env var for production DB
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'sqlite:////tmp/nexus_host.db' if os.environ.get('VERCEL') else 'sqlite:///nexus_host.db'
+    )
 
 class TestingConfig(Config):
     """Testing configuration"""
