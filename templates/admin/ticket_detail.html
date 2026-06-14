@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+{% block title %}Ticket #{{ ticket.id }} - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Ticket #{{ ticket.id }}: {{ ticket.subject }}{% endblock %}
+
+{% block content %}
+<div class="glass" style="padding:1.5rem;margin-bottom:2rem">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+    <div>
+      <p style="color:var(--text-secondary)">
+        <strong>User:</strong> {{ ticket.user.username if ticket.user else 'N/A' }} |
+        <strong>Department:</strong> {{ ticket.department }} |
+        <strong>Priority:</strong> <span class="priority-badge priority-{{ ticket.priority }}">{{ ticket.priority }}</span> |
+        <strong>Status:</strong> <span class="status-badge status-{{ ticket.status }}">{{ ticket.status }}</span>
+      </p>
+    </div>
+    <span style="color:var(--text-secondary)">{{ ticket.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+  </div>
+
+  <div class="ticket-message" style="background:var(--card-bg);padding:1.5rem;border-radius:12px;margin-bottom:1.5rem;border:1px solid var(--border)">
+    <p style="line-height:1.7">{{ ticket.message }}</p>
+  </div>
+
+  {% for response in responses %}
+  <div class="ticket-message" style="background:var(--card-bg);padding:1.5rem;border-radius:12px;margin-bottom:1rem;border:1px solid var(--border);{% if response.is_staff %}border-left:3px solid var(--primary){% endif %}">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+      <img src="https://ui-avatars.com/api/?name={{ response.responder.username }}&background={% if response.is_staff %}6366f1{% else %}10b981{% endif %}&color=fff&size=32" alt="" style="border-radius:50%;width:32px;height:32px">
+      <strong>{{ response.responder.username }}</strong>
+      {% if response.is_staff %}<span class="staff-badge">Staff</span>{% endif %}
+      <span style="color:var(--text-secondary);font-size:0.85rem">{{ response.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+    </div>
+    <p style="line-height:1.7">{{ response.message }}</p>
+  </div>
+  {% endfor %}
+
+  {% if ticket.status != 'closed' %}
+  <form method="POST" action="{{ url_for('admin.respond_ticket', ticket_id=ticket.id) }}" style="margin-top:2rem">
+    <div class="form-group">
+      <label>Staff Response</label>
+      <textarea name="message" class="form-control" rows="5" placeholder="Type your response..." required></textarea>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+      <button type="submit" class="btn btn-primary">Send Response</button>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <label>Set Status:</label>
+        <select name="status" class="form-control" style="width:auto">
+          <option value="pending" {% if ticket.status == 'pending' %}selected{% endif %}>Pending</option>
+          <option value="resolved" {% if ticket.status == 'resolved' %}selected{% endif %}>Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+    </div>
+  </form>
+  {% endif %}
+</div>
+
+<style>
+.staff-badge { display:inline-block; padding:0.15rem 0.5rem; border-radius:4px; background:rgba(99,102,241,0.15); color:#6366f1; font-size:0.75rem; font-weight:600; text-transform:uppercase; }
+</style>
+{% endblock %}

@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+{% block title %}NEXUS VIP HOST - Premium Hosting Solutions{% endblock %}
+
+{% block content %}
+<!-- ===== HERO SECTION ===== -->
+<section class="hero" data-mesh data-particles>
+  <div class="hero-bg">
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="hero-gradient"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge" data-reveal>
+      <span class="badge-pulse"></span>
+      <span>99.99% Uptime Guaranteed</span>
+    </div>
+    <h1 class="hero-title" data-reveal data-reveal-delay="100">
+      Premium Hosting<br>
+      <span class="gradient-text neon-glow">Built for Excellence</span>
+    </h1>
+    <div class="hero-3d-element" data-speed="0.5" style="position:absolute;top:20%;right:10%;font-size:8rem;opacity:0.03;pointer-events:none;user-select:none">
+      <i class="fas fa-server"></i>
+    </div>
+    <div class="hero-3d-element" data-speed="0.8" style="position:absolute;bottom:30%;left:5%;font-size:5rem;opacity:0.02;pointer-events:none;user-select:none">
+      <i class="fas fa-cloud"></i>
+    </div>
+    <div class="hero-3d-element" data-speed="0.3" style="position:absolute;top:40%;right:5%;font-size:4rem;opacity:0.02;pointer-events:none;user-select:none">
+      <i class="fas fa-shield-alt"></i>
+    </div>
+    <p class="hero-subtitle" data-reveal data-reveal-delay="200">
+      Experience lightning-fast performance, enterprise-grade security, and 24/7 expert support.
+      Your journey to premium hosting starts here.
+    </p>
+    <div class="hero-cta" data-reveal data-reveal-delay="300">
+      <a href="{{ url_for('main.plans') }}" class="btn btn-primary btn-lg btn-shine">
+        View Plans <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="{{ url_for('main.status_page') }}" class="btn btn-outline btn-lg">
+        Server Status <i class="fas fa-chart-line"></i>
+      </a>
+    </div>
+    <div class="hero-stats" data-reveal data-reveal-delay="400">
+      <div class="hero-stat tilt-card">
+        <span class="hero-stat-num animate-counter" data-target="15247">0</span>
+        <span class="hero-stat-label">Happy Clients</span>
+      </div>
+      <div class="hero-stat tilt-card">
+        <span class="hero-stat-num">99</span><span class="hero-stat-suffix">.99%</span>
+        <span class="hero-stat-label">Uptime</span>
+      </div>
+      <div class="hero-stat tilt-card">
+        <span class="hero-stat-num animate-counter" data-target="15">0</span><span class="hero-stat-suffix">+</span>
+        <span class="hero-stat-label">Data Centers</span>
+      </div>
+      <div class="hero-stat tilt-card">
+        <span class="hero-stat-num animate-counter" data-target="247">0</span>
+        <span class="hero-stat-label">Staff Experts</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll to explore</span>
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+  </div>
+</section>
+
+<!-- ===== LIVE SERVER STATUS BAR ===== -->
+<section class="status-bar">
+  <div class="container">
+    <div class="status-bar-inner">
+      <div class="status-item">
+        <span class="status-dot online"></span>
+        <span>Web Server</span>
+        <span class="status-latency">12ms</span>
+      </div>
+      <div class="status-item">
+        <span class="status-dot online"></span>
+        <span>Database</span>
+        <span class="status-latency">8ms</span>
+      </div>
+      <div class="status-item">
+        <span class="status-dot online"></span>
+        <span>DNS</span>
+        <span class="status-latency">5ms</span>
+      </div>
+      <div class="status-item">
+        <span class="status-dot online"></span>
+        <span>CDN</span>
+        <span class="status-latency">23ms</span>
+      </div>
+      <div class="status-item">
+        <span class="status-dot online"></span>
+        <span>Load Balancer</span>
+        <span class="status-latency">3ms</span>
+      </div>
+      <div class="status-item status-all">
+        <span class="status-dot online"></span>
+        <span>All Systems Operational</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUSTED BY ===== -->
+<section class="trusted-by">
+  <div class="container">
+    <p class="trusted-label">Trusted by innovative companies worldwide</p>
+    <div class="trusted-logos">
+      <span><i class="fab fa-google"></i> Google</span>
+      <span><i class="fab fa-microsoft"></i> Microsoft</span>
+      <span><i class="fab fa-amazon"></i> AWS</span>
+      <span><i class="fab fa-meta"></i> Meta</span>
+      <span><i class="fab fa-spotify"></i> Spotify</span>
+      <span><i class="fab fa-slack"></i> Slack</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY CHOOSE US ===== -->
+<section class="section why-choose" id="features" data-orbs data-orb-count="3" data-orb-colors="#6366f1,#06b6d4,#8b5cf6">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="section-badge">Why Choose Us</span>
+      <h2 class="section-title">Built for <span class="gradient-text">Performance</span></h2>
+      <p class="section-desc">Enterprise infrastructure with consumer-friendly simplicity</p>
+    </div>
+    <div class="features-grid" data-stagger data-stagger-delay="80">
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Instant Deployment</h3>
+        <p>Get your server running in under 30 seconds with our automated provisioning system.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>DDoS Protection</h3>
+        <p>Enterprise-grade protection against Layer 3, 4, and 7 DDoS attacks up to 2 Tbps.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+        <h3>NVMe SSD Storage</h3>
+        <p>Pure NVMe SSD arrays delivering up to 10x faster read/write speeds than traditional SSDs.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
+        <h3>LiteSpeed Web Server</h3>
+        <p>Up to 10x faster performance with LiteSpeed Enterprise and built-in caching.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-lock"></i></div>
+        <h3>Free SSL Certificates</h3>
+        <p>Auto-renewing SSL certificates with every plan. HTTPS by default.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <h3>Daily Backups</h3>
+        <p>Automated daily backups with 7-day retention. Restore with one click.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+        <h3>Global CDN</h3>
+        <p>Content delivery across 200+ edge locations worldwide for blazing-fast load times.</p>
+      </div>
+      <div class="feature-card glass tilt-card stagger-item">
+        <div class="feature-icon"><i class="fas fa-cpanel"></i></div>
+        <h3>cPanel / Plesk</h3>
+        <p>Industry-leading control panels with one-click installer and full management suite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATISTICS COUNTER ===== -->
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card glass">
+        <i class="fas fa-server"></i>
+        <span class="stat-number" data-target="25000">0</span>
+        <span class="stat-label">Servers Deployed</span>
+      </div>
+      <div class="stat-card glass">
+        <i class="fas fa-users"></i>
+        <span class="stat-number" data-target="15247">0</span>
+        <span class="stat-label">Happy Clients</span>
+      </div>
+      <div class="stat-card glass">
+        <i class="fas fa-globe-americas"></i>
+        <span class="stat-number" data-target="15">0</span>
+        <span class="stat-label">Data Centers</span>
+      </div>
+      <div class="stat-card glass">
+        <i class="fas fa-headset"></i>
+        <span class="stat-number" data-target="247">0</span>
+        <span class="stat-label">Support Team</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING PREVIEW ===== -->
+<section class="section pricing-preview" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Pricing</span>
+      <h2 class="section-title">Simple, <span class="gradient-text">Transparent</span> Pricing</h2>
+      <p class="section-desc">No hidden fees. No surprises. Just premium hosting at fair prices.</p>
+      <div class="billing-toggle">
+        <span class="toggle-label" data-period="monthly">Monthly</span>
+        <label class="switch">
+          <input type="checkbox" id="billingSwitch" checked>
+          <span class="slider round"></span>
+        </label>
+        <span class="toggle-label" data-period="yearly">Yearly <span class="save-badge">Save 25%</span></span>
+      </div>
+    </div>
+    <div class="pricing-grid" id="pricingGrid">
+      {% set shared_plans = plans|selectattr('type', 'equalto', 'shared')|list %}
+      <div class="pricing-grid" data-stagger data-stagger-delay="100" style="gap:2rem">
+      {% for plan in shared_plans[:3] %}
+      <div class="pricing-card glass tilt-card glow-border {% if plan.is_popular %}featured{% endif %} stagger-item" data-plan="{{ plan.type }}" style="--border-glow: rgba(99, 102, 241, 0.3);">
+        {% if plan.is_popular %}<div class="pricing-badge">Popular</div>{% endif %}
+        <div class="pricing-header">
+          <div class="float-element" data-duration="4" data-distance="8"><i class="fas fa-share-alt"></i></div>
+          <h3>{{ plan.name }}</h3>
+          <p>{{ plan.description }}</p>
+        </div>
+        <div class="pricing-price">
+          <span class="price currency">$</span>
+          <span class="price amount" data-monthly="{{ '%.2f'|format(plan.price_monthly) }}" data-yearly="{{ '%.2f'|format(plan.price_yearly) }}">{{ '%.2f'|format(plan.price_monthly) }}</span>
+          <span class="price period">/month</span>
+        </div>
+        <ul class="pricing-features">
+          {% for feature in plan.get_features_list() %}
+          <li><i class="fas fa-check"></i> {{ feature }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-block btn-shine">Get Started</a>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DATA CENTERS ===== -->
+<section class="section datacenters" data-reveal>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Infrastructure</span>
+      <h2 class="section-title">Global <span class="gradient-text">Data Centers</span></h2>
+      <p class="section-desc">15 data centers across 4 continents for optimal performance</p>
+    </div>
+    <div class="dc-grid" data-stagger data-stagger-delay="100">
+      <div class="dc-card glass tilt-card stagger-item float-element" data-duration="5" data-distance="10">
+        <div class="dc-flag">🇺🇸</div>
+        <div class="dc-info"><h4>North America</h4><p>New York, San Francisco, Dallas, Toronto</p></div>
+      </div>
+      <div class="dc-card glass tilt-card stagger-item float-element" data-duration="6" data-distance="8">
+        <div class="dc-flag">🇪🇺</div>
+        <div class="dc-info"><h4>Europe</h4><p>London, Amsterdam, Frankfurt, Paris</p></div>
+      </div>
+      <div class="dc-card glass tilt-card stagger-item float-element" data-duration="4" data-distance="12">
+        <div class="dc-flag">🇸🇬</div>
+        <div class="dc-info"><h4>Asia Pacific</h4><p>Singapore, Tokyo, Sydney, Mumbai</p></div>
+      </div>
+      <div class="dc-card glass tilt-card stagger-item float-element" data-duration="5.5" data-distance="9">
+        <div class="dc-flag">🇧🇷</div>
+        <div class="dc-info"><h4>South America</h4><p>São Paulo, Buenos Aires</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section testimonials" data-reveal>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Testimonials</span>
+      <h2 class="section-title">What Our <span class="gradient-text">Clients</span> Say</h2>
+      <p class="section-desc">Trusted by thousands of businesses worldwide</p>
+    </div>
+    <div class="swiper testimonial-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="testimonial-card glass tilt-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"NEXUS VIP HOST transformed our online presence. The speed is incredible and their support team is always available. Best hosting decision we've made."</p>
+            <div class="testimonial-author">
+              <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=6366f1&color=fff&size=60" alt="Sarah Johnson">
+              <div><strong>Sarah Johnson</strong><span>CEO, TechFlow Inc.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="testimonial-card glass tilt-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"We migrated 50+ sites to Nexus and the process was seamless. Their VPS plans offer incredible value for the performance you get. Highly recommended!"</p>
+            <div class="testimonial-author">
+              <img src="https://ui-avatars.com/api/?name=Marcus+Williams&background=06b6d4&color=fff&size=60" alt="Marcus Williams">
+              <div><strong>Marcus Williams</strong><span>CTO, DevBridge Agency</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="testimonial-card glass tilt-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"The DDoS protection and security features are top-notch. We've been attack-free for over a year. Nexus takes security seriously and it shows."</p>
+            <div class="testimonial-author">
+              <img src="https://ui-avatars.com/api/?name=Elena+Rodriguez&background=8b5cf6&color=fff&size=60" alt="Elena Rodriguez">
+              <div><strong>Elena Rodriguez</strong><span>Security Lead, CryptoVault</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="testimonial-card glass tilt-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"Their dedicated servers are absolute beasts. We run high-traffic applications with zero issues. The control panel makes management a breeze."</p>
+            <div class="testimonial-author">
+              <img src="https://ui-avatars.com/api/?name=David+Chen&background=10b981&color=fff&size=60" alt="David Chen">
+              <div><strong>David Chen</strong><span>DevOps Lead, ScaleUp SaaS</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="section cta-banner" data-reveal data-orbs data-orb-count="2" data-orb-colors="#6366f1,#06b6d4">
+  <div class="container">
+    <div class="cta-content glass-premium">
+      <h2 class="neon-glow">Ready to Launch Your <span class="gradient-text">Dream Project</span>?</h2>
+      <p>Join 15,000+ businesses that trust NEXUS VIP HOST for their hosting needs.</p>
+      <div class="cta-actions">
+        <a href="{{ url_for('main.plans') }}" class="btn btn-primary btn-lg btn-shine">
+          Get Started Today <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="{{ url_for('main.support') }}" class="btn btn-outline btn-lg">
+          Talk to Sales <i class="fas fa-comments"></i>
+        </a>
+      </div>
+      <div class="cta-guarantee">
+        <i class="fas fa-shield-alt"></i>
+        <span>30-day money-back guarantee. No questions asked.</span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Initialize homepage-specific features
+  document.addEventListener('DOMContentLoaded', function() {
+    initHeroParticles();
+    initCounters();
+    initPricingToggle();
+    initTestimonialSwiper();
+  });
+</script>
+{% endblock %}

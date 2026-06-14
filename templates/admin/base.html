@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin{% endblock %} - NEXUS VIP HOST</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium-effects.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-header">
+        <a href="{{ url_for('admin.dashboard') }}" class="sidebar-logo">
+          <span class="logo-icon">🚀</span>
+          <span class="logo-text">NEXUS <span class="logo-highlight">VIP</span></span>
+        </a>
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('admin.dashboard') }}" class="sidebar-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+          <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+        </a>
+        <a href="{{ url_for('admin.users') }}" class="sidebar-link {% if request.endpoint in ('admin.users', 'admin.user_detail') %}active{% endif %}">
+          <i class="fas fa-users"></i> <span>Users</span>
+        </a>
+        <a href="{{ url_for('admin.plans') }}" class="sidebar-link {% if request.endpoint in ('admin.plans', 'admin.create_plan', 'admin.edit_plan') %}active{% endif %}">
+          <i class="fas fa-server"></i> <span>Hosting Plans</span>
+        </a>
+        <a href="{{ url_for('admin.orders') }}" class="sidebar-link {% if request.endpoint == 'admin.orders' %}active{% endif %}">
+          <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+        </a>
+        <a href="{{ url_for('admin.tickets') }}" class="sidebar-link {% if request.endpoint in ('admin.tickets', 'admin.ticket_detail') %}active{% endif %}">
+          <i class="fas fa-ticket-alt"></i> <span>Tickets</span>
+        </a>
+        <a href="{{ url_for('admin.payments') }}" class="sidebar-link {% if request.endpoint == 'admin.payments' %}active{% endif %}">
+          <i class="fas fa-credit-card"></i> <span>Payments</span>
+        </a>
+        <a href="{{ url_for('admin.settings') }}" class="sidebar-link {% if request.endpoint == 'admin.settings' %}active{% endif %}">
+          <i class="fas fa-cog"></i> <span>Settings</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="{{ url_for('main.index') }}" class="sidebar-link"><i class="fas fa-arrow-left"></i> <span>Back to Site</span></a>
+        <a href="{{ url_for('auth.logout') }}" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <!-- Top Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="sidebar-mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+          <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+        </div>
+        <div class="topbar-right">
+          <span class="admin-user">
+            <i class="fas fa-user-circle"></i>
+            {{ current_user.full_name or current_user.username }}
+          </span>
+        </div>
+      </header>
+
+      <!-- Flash Messages -->
+      <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-message flash-{{ category }}">
+                <span>{{ message }}</span>
+                <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      <!-- Page Content -->
+      <div class="admin-container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/effects/threeD.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/effects/animations.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/effects/dashboard.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

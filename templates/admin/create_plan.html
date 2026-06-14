@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+{% block title %}Create Plan - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Create Hosting Plan{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width:700px;margin:0 auto;padding:2rem">
+  <form method="POST">
+    <div class="form-group">
+      <label>Plan Name</label>
+      <input type="text" name="name" class="form-control" required placeholder="e.g., Starter Shared">
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+      <select name="type" class="form-control">
+        <option value="shared">Shared</option>
+        <option value="vps">VPS</option>
+        <option value="cloud">Cloud</option>
+        <option value="dedicated">Dedicated</option>
+        <option value="game">Game</option>
+        <option value="reseller">Reseller</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" name="description" class="form-control" placeholder="e.g., Perfect for personal sites">
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label>Monthly Price ($)</label>
+        <input type="number" name="price_monthly" class="form-control" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <label>Yearly Price ($)</label>
+        <input type="number" name="price_yearly" class="form-control" step="0.01" required>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>CPU</label><input type="text" name="cpu" class="form-control" placeholder="e.g., 2 vCPU"></div>
+      <div class="form-group"><label>RAM</label><input type="text" name="ram" class="form-control" placeholder="e.g., 4 GB"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>Storage</label><input type="text" name="storage" class="form-control" placeholder="e.g., 50 GB NVMe"></div>
+      <div class="form-group"><label>Bandwidth</label><input type="text" name="bandwidth" class="form-control" placeholder="e.g., 1 TB"></div>
+    </div>
+    <div class="form-group"><label>Websites</label><input type="text" name="websites" class="form-control" placeholder="e.g., 10 Websites"></div>
+    <div class="form-group">
+      <label>Features (one per line)</label>
+      <textarea name="features[]" class="form-control" rows="4" placeholder="Free SSL&#10;Daily Backups&#10;24/7 Support"></textarea>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>Sort Order</label><input type="number" name="sort_order" class="form-control" value="0"></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;padding-top:1.5rem">
+        <input type="checkbox" name="is_popular" id="isPopular"> <label for="isPopular">Mark as Popular</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Create Plan</button>
+  </form>
+</div>
+{% endblock %}

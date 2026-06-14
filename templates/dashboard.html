@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Client <span class="gradient-text">Dashboard</span></h1>
+    <p>Welcome back, {{ current_user.full_name or current_user.username }}</p>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Stats Grid -->
+  <div class="stats-grid" style="margin-bottom:2rem">
+    <div class="stat-card glass">
+      <i class="fas fa-server"></i>
+      <span class="stat-number">{{ stats.active_services }}</span>
+      <span class="stat-label">Active Services</span>
+    </div>
+    <div class="stat-card glass">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="stat-number">{{ stats.total_orders }}</span>
+      <span class="stat-label">Total Orders</span>
+    </div>
+    <div class="stat-card glass">
+      <i class="fas fa-ticket-alt"></i>
+      <span class="stat-number">{{ stats.open_tickets }}</span>
+      <span class="stat-label">Open Tickets</span>
+    </div>
+    <div class="stat-card glass">
+      <i class="fas fa-dollar-sign"></i>
+      <span class="stat-number">${{ '%.2f'|format(stats.total_paid) }}</span>
+      <span class="stat-label">Total Spent</span>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div class="glass" style="padding:2rem;margin-bottom:2rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <h2>My <span class="gradient-text">Services</span></h2>
+      <a href="{{ url_for('main.plans') }}" class="btn btn-primary btn-sm">Order New</a>
+    </div>
+    {% if orders %}
+    <div style="overflow-x:auto">
+      <table class="dashboard-table">
+        <thead>
+          <tr><th>Plan</th><th>Domain</th><th>Billing</th><th>Status</th><th>Next Due</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td><strong>{{ order.plan.name if order.plan else 'N/A' }}</strong></td>
+            <td>{{ order.domain or '—' }}</td>
+            <td>{{ order.billing_cycle }} / ${{ '%.2f'|format(order.total_amount) }}</td>
+            <td><span class="status-badge status-{{ order.status }}">{{ order.status }}</span></td>
+            <td>{{ order.next_due_date.strftime('%Y-%m-%d') if order.next_due_date else '—' }}</td>
+            <td><a href="#" class="btn btn-outline btn-xs">Manage</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="text-align:center;color:var(--text-secondary);padding:2rem">No services yet. <a href="{{ url_for('main.plans') }}">Order a hosting plan</a> to get started.</p>
+    {% endif %}
+  </div>
+
+  <div class="glass" style="padding:2rem;margin-bottom:2rem">
+    <h2 style="margin-bottom:1.5rem">Recent <span class="gradient-text">Tickets</span></h2>
+    {% if tickets %}
+    <div style="overflow-x:auto">
+      <table class="dashboard-table">
+        <thead><tr><th>Subject</th><th>Status</th><th>Priority</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for ticket in tickets %}
+          <tr>
+            <td>{{ ticket.subject }}</td>
+            <td><span class="status-badge status-{{ ticket.status }}">{{ ticket.status }}</span></td>
+            <td><span class="priority-badge priority-{{ ticket.priority }}">{{ ticket.priority }}</span></td>
+            <td>{{ ticket.created_at.strftime('%Y-%m-%d') }}</td>
+            <td><a href="#" class="btn btn-outline btn-xs">View</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="text-align:center;color:var(--text-secondary);padding:1rem">No support tickets.</p>
+    {% endif %}
+    <div style="text-align:right;margin-top:1rem">
+      <a href="{{ url_for('main.support') }}" class="btn btn-outline btn-sm">Open New Ticket</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.dashboard-table { width:100%; border-collapse:collapse; }
+.dashboard-table th, .dashboard-table td { padding:0.75rem 1rem; text-align:left; border-bottom:1px solid var(--border); }
+.dashboard-table th { font-weight:600; color:var(--text-secondary); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; }
+.dashboard-table tbody tr:hover { background:var(--hover-bg); }
+.status-badge { display:inline-block; padding:0.25rem 0.75rem; border-radius:999px; font-size:0.8rem; font-weight:500; text-transform:capitalize; }
+.status-active { background:rgba(16,185,129,0.15); color:#10b981; }
+.status-pending { background:rgba(245,158,11,0.15); color:#f59e0b; }
+.status-suspended { background:rgba(239,68,68,0.15); color:#ef4444; }
+.status-cancelled { background:rgba(100,116,139,0.15); color:#64748b; }
+.priority-badge { display:inline-block; padding:0.2rem 0.5rem; border-radius:4px; font-size:0.75rem; font-weight:500; text-transform:capitalize; }
+.priority-low { background:rgba(16,185,129,0.15); color:#10b981; }
+.priority-normal { background:rgba(99,102,241,0.15); color:#6366f1; }
+.priority-high { background:rgba(245,158,11,0.15); color:#f59e0b; }
+.priority-urgent { background:rgba(239,68,68,0.15); color:#ef4444; }
+.btn-xs { padding:0.25rem 0.75rem; font-size:0.8rem; }
+</style>
+{% endblock %}

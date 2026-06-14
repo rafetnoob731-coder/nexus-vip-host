@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% block title %}Payments - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Payment Management{% endblock %}
+
+{% block content %}
+<div class="glass" style="padding:1.5rem;overflow-x:auto">
+  <p style="margin-bottom:1.5rem">{{ payments.total }} total payments</p>
+  <table class="admin-table">
+    <thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Method</th><th>Status</th><th>Transaction ID</th><th>Date</th></tr></thead>
+    <tbody>
+      {% for payment in payments.records %}
+      <tr>
+        <td>#{{ payment.id }}</td>
+        <td>{{ payment.user.username if payment.user else 'N/A' }}</td>
+        <td>${{ '%.2f'|format(payment.amount) }}</td>
+        <td>{{ payment.method or '—' }}</td>
+        <td><span class="status-badge status-{{ payment.status }}">{{ payment.status }}</span></td>
+        <td style="font-size:0.8rem">{{ payment.transaction_id or '—' }}</td>
+        <td>{{ payment.created_at.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if payments.total_pages > 1 %}
+  <div class="pagination" style="margin-top:1rem">
+    {% if payments.has_prev %}<a href="?page={{ payments.page - 1 }}" class="btn btn-outline btn-sm">Previous</a>{% endif %}
+    <span>Page {{ payments.page }} of {{ payments.total_pages }}</span>
+    {% if payments.has_next %}<a href="?page={{ payments.page + 1 }}" class="btn btn-outline btn-sm">Next</a>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

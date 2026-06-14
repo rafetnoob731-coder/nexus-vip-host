@@ -1,0 +1,21 @@
+[Unit]
+Description=NEXUS VIP HOST - Premium Hosting Platform
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/nexus-vip-host
+Environment="FLASK_ENV=production"
+Environment="SECRET_KEY=your-production-secret-key"
+ExecStart=/usr/local/bin/gunicorn --workers 4 --bind 127.0.0.1:5000 app:create_app()
+Restart=always
+RestartSec=5
+
+# Security
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

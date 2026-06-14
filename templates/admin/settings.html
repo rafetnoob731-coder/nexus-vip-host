@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings - NEXUS VIP HOST{% endblock %}
+{% block page_title %}System Settings{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width:700px;margin:0 auto;padding:2rem">
+  <form method="POST">
+    <h3 style="margin-bottom:1.5rem">General <span class="gradient-text">Settings</span></h3>
+    <div class="form-group">
+      <label>Site Name</label>
+      <input type="text" class="form-control" value="NEXUS VIP HOST" disabled>
+    </div>
+    <div class="form-group">
+      <label>Site Tagline</label>
+      <input type="text" class="form-control" value="Powering Your Digital Future" disabled>
+    </div>
+    <div class="form-group">
+      <label>Support Email</label>
+      <input type="email" class="form-control" value="support@nexusviphost.com">
+    </div>
+    <div class="form-group">
+      <label>Default Currency</label>
+      <select class="form-control">
+        <option selected>USD ($)</option>
+        <option>EUR (€)</option>
+        <option>GBP (£)</option>
+      </select>
+    </div>
+
+    <h3 style="margin:2rem 0 1.5rem">Payment <span class="gradient-text">Gateways</span></h3>
+    <div class="form-group">
+      <label><input type="checkbox" checked disabled> PayPal</label>
+    </div>
+    <div class="form-group">
+      <label><input type="checkbox" checked disabled> Stripe</label>
+    </div>
+    <div class="form-group">
+      <label><input type="checkbox" disabled> Cryptocurrency</label>
+    </div>
+
+    <h3 style="margin:2rem 0 1.5rem">Email <span class="gradient-text">Settings</span></h3>
+    <div class="form-group">
+      <label>SMTP Host</label>
+      <input type="text" class="form-control" value="smtp.nexusviphost.com">
+    </div>
+    <div class="form-group">
+      <label>SMTP Port</label>
+      <input type="number" class="form-control" value="587">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Save Settings</button>
+  </form>
+</div>
+{% endblock %}

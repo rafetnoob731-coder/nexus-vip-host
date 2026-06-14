@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Support Center - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Support <span class="gradient-text">Center</span></h1>
+    <p>We're here to help 24/7</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="support-grid">
+    <div class="support-card glass">
+      <i class="fas fa-comment-dots"></i>
+      <h3>Live Chat</h3>
+      <p>Average response: &lt; 2 minutes</p>
+      <button class="btn btn-primary" onclick="showToast('Live chat connecting...', 'info')">Start Chat <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div class="support-card glass">
+      <i class="fas fa-ticket-alt"></i>
+      <h3>Ticket System</h3>
+      <p>Average response: &lt; 30 minutes</p>
+      <a href="{{ url_for('main.create_ticket') if current_user.is_authenticated else url_for('auth.login') }}" class="btn btn-primary">Open Ticket <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="support-card glass">
+      <i class="fab fa-discord"></i>
+      <h3>Discord Server</h3>
+      <p>Join our community of 5,000+ members</p>
+      <button class="btn btn-primary" onclick="showToast('Join our Discord: discord.gg/nexusvip', 'info')">Join Discord <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div class="support-card glass">
+      <i class="fab fa-telegram"></i>
+      <h3>Telegram Group</h3>
+      <p>Instant notifications and community help</p>
+      <button class="btn btn-primary" onclick="showToast('Join our Telegram: t.me/nexusvip', 'info')">Join Telegram <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="contact-form-container glass" style="margin-top:3rem">
+    <h2>Contact <span class="gradient-text">Us</span></h2>
+    <form class="contact-form" onsubmit="event.preventDefault(); showToast('Message sent! We will respond shortly.', 'success'); this.reset();">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" class="form-control" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" class="form-control" placeholder="your@email.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select class="form-control">
+          <option>Sales Inquiry</option>
+          <option>Technical Support</option>
+          <option>Billing Question</option>
+          <option>Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea class="form-control" rows="5" placeholder="How can we help you?" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Send Message <i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+{% endblock %}

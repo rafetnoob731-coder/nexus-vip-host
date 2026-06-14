@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Server Status - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Server <span class="gradient-text">Status</span></h1>
+    <p>Real-time monitoring and incident reports</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="status-summary glass">
+    <div class="status-big">
+      <span class="status-dot online big"></span>
+      <span class="status-text">All Systems Operational</span>
+    </div>
+    <p>Last checked: <span id="lastChecked">Just now</span></p>
+  </div>
+
+  <div class="status-list">
+    {% set components = [
+      {'name': 'Web Server', 'icon': 'fa-globe', 'detail': 'LiteSpeed Enterprise', 'uptime': '99.99%'},
+      {'name': 'Database Servers', 'icon': 'fa-database', 'detail': 'MariaDB / PostgreSQL', 'uptime': '99.99%'},
+      {'name': 'Network Infrastructure', 'icon': 'fa-network-wired', 'detail': '10 Gbps backbone', 'uptime': '99.99%'},
+      {'name': 'DDoS Protection', 'icon': 'fa-shield-alt', 'detail': 'Cloudflare / Arbor', 'uptime': '100%'},
+      {'name': 'Email Services', 'icon': 'fa-envelope', 'detail': 'Dovecot / Postfix', 'uptime': '99.98%'},
+      {'name': 'Backup Systems', 'icon': 'fa-cloud-upload-alt', 'detail': 'Automated daily', 'uptime': '100%'}
+    ] %}
+    {% for comp in components %}
+    <div class="status-component glass">
+      <div class="component-info">
+        <i class="fas {{ comp.icon }}"></i>
+        <div>
+          <strong>{{ comp.name }}</strong>
+          <span class="component-detail">{{ comp.detail }}</span>
+        </div>
+      </div>
+      <div class="component-status">
+        <span class="status-dot online"></span>
+        <span>Operational</span>
+        <span class="component-uptime">{{ comp.uptime }} uptime</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Uptime Chart -->
+  <div class="uptime-section" style="margin-top:3rem">
+    <h2 class="section-title" style="text-align:center;margin-bottom:2rem">30-Day <span class="gradient-text">Uptime</span></h2>
+    <div class="uptime-chart glass">
+      <div class="chart-bars" id="uptimeBars"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Generate uptime bars
+  const container = document.getElementById('uptimeBars');
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue'];
+  days.forEach(day => {
+    const uptime = 99.5 + Math.random() * 0.49;
+    const bar = document.createElement('div');
+    bar.className = 'uptime-bar';
+    const height = 40 + (uptime - 99.5) * 200;
+    bar.innerHTML = `<div class="bar" style="height:${height}px;background:${uptime > 99.8 ? '#10b981' : uptime > 99.5 ? '#6366f1' : '#f59e0b'}"></div><span class="bar-label">${day}</span>`;
+    container.appendChild(bar);
+  });
+});
+</script>
+{% endblock %}

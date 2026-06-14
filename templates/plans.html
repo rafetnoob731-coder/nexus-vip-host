@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Hosting Plans - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Hosting <span class="gradient-text">Plans</span></h1>
+    <p>Choose the perfect hosting solution for your needs</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="billing-toggle" style="margin-bottom:2rem">
+    <span class="toggle-label" data-period="monthly">Monthly</span>
+    <label class="switch">
+      <input type="checkbox" id="billingSwitch" checked>
+      <span class="slider round"></span>
+    </label>
+    <span class="toggle-label" data-period="yearly">Yearly <span class="save-badge">Save 25%</span></span>
+  </div>
+
+  <!-- Hosting Tabs -->
+  <div class="hosting-tabs">
+    <a href="{{ url_for('main.plans', type='shared') }}" class="hosting-tab {% if current_type == 'shared' %}active{% endif %}">
+      <i class="fas fa-share-alt"></i> Shared
+    </a>
+    <a href="{{ url_for('main.plans', type='vps') }}" class="hosting-tab {% if current_type == 'vps' %}active{% endif %}">
+      <i class="fas fa-server"></i> VPS
+    </a>
+    <a href="{{ url_for('main.plans', type='cloud') }}" class="hosting-tab {% if current_type == 'cloud' %}active{% endif %}">
+      <i class="fas fa-cloud"></i> Cloud
+    </a>
+    <a href="{{ url_for('main.plans', type='dedicated') }}" class="hosting-tab {% if current_type == 'dedicated' %}active{% endif %}">
+      <i class="fas fa-database"></i> Dedicated
+    </a>
+    <a href="{{ url_for('main.plans', type='game') }}" class="hosting-tab {% if current_type == 'game' %}active{% endif %}">
+      <i class="fas fa-gamepad"></i> Game
+    </a>
+    <a href="{{ url_for('main.plans', type='reseller') }}" class="hosting-tab {% if current_type == 'reseller' %}active{% endif %}">
+      <i class="fas fa-store"></i> Reseller
+    </a>
+  </div>
+
+  <!-- Plans Grid -->
+  <div class="pricing-grid" data-stagger data-stagger-delay="80" style="gap:2rem">
+    {% for plan in plans %}
+    <div class="pricing-card glass tilt-card glow-border stagger-item {% if plan.is_popular %}featured{% endif %}" data-plan="{{ plan.type }}" style="--border-glow: rgba(99, 102, 241, 0.3);">
+      {% if plan.is_popular %}<div class="pricing-badge">Popular</div>{% endif %}
+      <div class="pricing-header">
+        <h3>{{ plan.name }}</h3>
+        <p>{{ plan.description }}</p>
+      </div>
+      <div class="pricing-price">
+        <span class="price currency">$</span>
+        <span class="price amount" data-monthly="{{ '%.2f'|format(plan.price_monthly) }}" data-yearly="{{ '%.2f'|format(plan.price_yearly) }}">{{ '%.2f'|format(plan.price_monthly) }}</span>
+        <span class="price period">/month</span>
+      </div>
+      <ul class="pricing-features">
+        {% for feature in plan.get_features_list() %}
+        <li><i class="fas fa-check"></i> {{ feature }}</li>
+        {% endfor %}
+      </ul>
+      {% if current_user.is_authenticated %}
+      <button class="btn btn-primary btn-block btn-shine order-plan" data-plan-id="{{ plan.id }}">Order Now</button>
+      {% else %}
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-block btn-shine">Login to Order</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Compare Plans -->
+  <section class="compare-section" style="margin-top:4rem" data-reveal>
+    <h2 class="section-title" style="text-align:center;margin-bottom:2rem">Compare <span class="gradient-text">Plans</span></h2>
+    <div class="table-responsive">
+      <table class="compare-table glass-premium">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Shared</th>
+            <th>VPS</th>
+            <th>Cloud</th>
+            <th>Dedicated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CPU Cores</td><td>Shared</td><td>2-8 vCPU</td><td>2-8 vCPU</td><td>12-64+ Cores</td></tr>
+          <tr><td>RAM</td><td>Shared</td><td>4-16 GB</td><td>4-16 GB</td><td>16-128 GB</td></tr>
+          <tr><td>Storage</td><td>NVMe SSD</td><td>NVMe SSD</td><td>NVMe SSD</td><td>NVMe SSD</td></tr>
+          <tr><td>Bandwidth</td><td>100 GB - 2 TB</td><td>1-4 TB</td><td>1-10 TB</td><td>10-50 TB</td></tr>
+          <tr><td>DDoS Protection</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Root Access</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>cPanel/Plesk</td><td>Yes</td><td>Optional</td><td>Optional</td><td>Optional</td></tr>
+          <tr><td>Auto Scaling</td><td>No</td><td>No</td><td>Yes</td><td>No</td></tr>
+          <tr><td>SLA Uptime</td><td>99.99%</td><td>99.99%</td><td>99.99%</td><td>99.99%</td></tr>
+          <tr><td>Support</td><td>24/7</td><td>24/7 Priority</td><td>24/7 Priority</td><td>24/7 Dedicated</td></tr>
+          <tr><td>Setup Time</td><td>Instant</td><td>~30 seconds</td><td>~30 seconds</td><td>~2 hours</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  initPricingToggle();
+
+  // Order button handler
+  document.querySelectorAll('.order-plan').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const planId = this.dataset.planId;
+      try {
+        const res = await fetch('/api/v1/orders', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({plan_id: parseInt(planId), billing_cycle: 'monthly'})
+        });
+        if (res.ok) {
+          showToast('Order placed successfully! Check your dashboard.', 'success');
+        } else {
+          const data = await res.json();
+          showToast(data.error || 'Failed to place order.', 'error');
+        }
+      } catch(err) {
+        showToast('Network error. Please try again.', 'error');
+      }
+    });
+  });
+});
+</script>
+{% endblock %}

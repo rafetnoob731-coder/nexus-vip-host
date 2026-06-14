@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% block title %}Hosting Plans - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Hosting Plans{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:flex-end;margin-bottom:1.5rem">
+  <a href="{{ url_for('admin.create_plan') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Create Plan</a>
+</div>
+
+<div class="glass" style="padding:1.5rem;overflow-x:auto">
+  <table class="admin-table">
+    <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Monthly</th><th>Yearly</th><th>Popular</th><th>Active</th><th>Order</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for plan in plans %}
+      <tr>
+        <td>#{{ plan.id }}</td>
+        <td><strong>{{ plan.name }}</strong></td>
+        <td><span class="plan-type-badge">{{ plan.type }}</span></td>
+        <td>${{ '%.2f'|format(plan.price_monthly) }}</td>
+        <td>${{ '%.2f'|format(plan.price_yearly) }}</td>
+        <td>{% if plan.is_popular %}<i class="fas fa-star" style="color:#f59e0b"></i>{% endif %}</td>
+        <td><span class="status-dot {{ 'online' if plan.is_active else 'offline' }}"></span></td>
+        <td>{{ plan.sort_order }}</td>
+        <td>
+          <a href="{{ url_for('admin.edit_plan', plan_id=plan.id) }}" class="btn btn-outline btn-xs">Edit</a>
+          <form method="POST" action="{{ url_for('admin.delete_plan', plan_id=plan.id) }}" style="display:inline" onsubmit="return confirm('Delete this plan?')">
+            <button type="submit" class="btn btn-outline btn-xs" style="border-color:rgba(239,68,68,0.3);color:#ef4444">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Edit Plan - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Edit Plan: {{ plan.name }}{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width:700px;margin:0 auto;padding:2rem">
+  <form method="POST">
+    <div class="form-group">
+      <label>Plan Name</label>
+      <input type="text" name="name" class="form-control" value="{{ plan.name }}" required>
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+      <select name="type" class="form-control">
+        {% for t in ['shared','vps','cloud','dedicated','game','reseller'] %}
+        <option value="{{ t }}" {% if plan.type == t %}selected{% endif %}>{{ t|capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" name="description" class="form-control" value="{{ plan.description }}">
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>Monthly Price ($)</label><input type="number" name="price_monthly" class="form-control" step="0.01" value="{{ plan.price_monthly }}" required></div>
+      <div class="form-group"><label>Yearly Price ($)</label><input type="number" name="price_yearly" class="form-control" step="0.01" value="{{ plan.price_yearly }}" required></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>CPU</label><input type="text" name="cpu" class="form-control" value="{{ plan.cpu }}"></div>
+      <div class="form-group"><label>RAM</label><input type="text" name="ram" class="form-control" value="{{ plan.ram }}"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>Storage</label><input type="text" name="storage" class="form-control" value="{{ plan.storage }}"></div>
+      <div class="form-group"><label>Bandwidth</label><input type="text" name="bandwidth" class="form-control" value="{{ plan.bandwidth }}"></div>
+    </div>
+    <div class="form-group"><label>Websites</label><input type="text" name="websites" class="form-control" value="{{ plan.websites }}"></div>
+    <div class="form-group">
+      <label>Features (one per line)</label>
+      <textarea name="features[]" class="form-control" rows="4">{% for f in plan.get_features_list() %}{{ f }}
+{% endfor %}</textarea>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group"><label>Sort Order</label><input type="number" name="sort_order" class="form-control" value="{{ plan.sort_order }}"></div>
+      <div style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem">
+        <div><input type="checkbox" name="is_popular" id="isPopular" {% if plan.is_popular %}checked{% endif %}> <label for="isPopular">Popular</label></div>
+        <div><input type="checkbox" name="is_active" id="isActive" {% if plan.is_active %}checked{% endif %}> <label for="isActive">Active</label></div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Update Plan</button>
+  </form>
+</div>
+{% endblock %}

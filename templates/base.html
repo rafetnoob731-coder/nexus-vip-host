@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}NEXUS VIP HOST{% endblock %} - Premium Hosting Solutions</title>
+  <meta name="description" content="{% block meta_desc %}Powering Your Digital Future. Premium hosting with NVMe SSD, DDoS Protection, 99.99% Uptime.{% endblock %}">
+  <meta name="keywords" content="hosting, premium hosting, VPS, dedicated servers, cloud hosting, domain registration">
+  <meta name="author" content="NEXUS VIP HOST">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/premium-effects.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ===== PRELOADER ===== -->
+  <div id="preloader">
+    <div class="loader-content">
+      <div class="loader-rocket">🚀</div>
+      <div class="loader-bar"><div class="loader-progress"></div></div>
+      <p class="loader-text">Launching Nexus...</p>
+    </div>
+  </div>
+
+  <!-- ===== FLASH MESSAGES ===== -->
+  <div class="flash-container" id="flashContainer">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            <span>{{ message }}</span>
+            <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="{{ url_for('main.index') }}" class="nav-logo">
+        <span class="logo-icon">🚀</span>
+        <span class="logo-text">NEXUS <span class="logo-highlight">VIP</span> HOST</span>
+      </a>
+      <div class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link">Hosting <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('main.plans', type='shared') }}"><i class="fas fa-share-alt"></i> Shared Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='vps') }}"><i class="fas fa-server"></i> VPS Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='cloud') }}"><i class="fas fa-cloud"></i> Cloud Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='dedicated') }}"><i class="fas fa-database"></i> Dedicated Servers</a></li>
+            <li><a href="{{ url_for('main.plans', type='game') }}"><i class="fas fa-gamepad"></i> Game Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='reseller') }}"><i class="fas fa-store"></i> Reseller Hosting</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a href="{{ url_for('main.domains') }}" class="nav-link">Domains</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link">Resources <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('main.knowledge') }}"><i class="fas fa-book"></i> Knowledge Base</a></li>
+            <li><a href="{{ url_for('main.support') }}"><i class="fas fa-headset"></i> Support Center</a></li>
+            <li><a href="{{ url_for('main.status_page') }}"><i class="fas fa-heartbeat"></i> Server Status</a></li>
+            <li><a href="{{ url_for('main.about') }}"><i class="fas fa-info-circle"></i> About Us</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a href="{{ url_for('main.plans') }}" class="nav-link">Pricing</a></li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link"><i class="fas fa-user"></i> {{ current_user.full_name or current_user.username }} <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('main.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('auth.profile') }}"><i class="fas fa-user-cog"></i> Profile</a></li>
+            <li><a href="{{ url_for('main.tickets') }}"><i class="fas fa-ticket-alt"></i> My Tickets</a></li>
+            {% if current_user.is_admin() %}
+            <li class="dropdown-divider"></li>
+            <li><a href="{{ url_for('admin.dashboard') }}"><i class="fas fa-shield-alt"></i> Admin Panel</a></li>
+            {% endif %}
+            <li class="dropdown-divider"></li>
+            <li><a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        <li class="nav-item nav-cta">
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Get Started</a>
+        </li>
+        {% endif %}
+        <li class="nav-item theme-toggle-container">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="page-wrapper">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <a href="{{ url_for('main.index') }}" class="nav-logo">
+            <span class="logo-icon">🚀</span>
+            <span class="logo-text">NEXUS <span class="logo-highlight">VIP</span> HOST</span>
+          </a>
+          <p>Premium hosting solutions for businesses and individuals. Fast, secure, and reliable since 2020.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Hosting</h4>
+          <ul>
+            <li><a href="{{ url_for('main.plans', type='shared') }}">Shared Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='vps') }}">VPS Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='cloud') }}">Cloud Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='dedicated') }}">Dedicated Servers</a></li>
+            <li><a href="{{ url_for('main.plans', type='game') }}">Game Hosting</a></li>
+            <li><a href="{{ url_for('main.plans', type='reseller') }}">Reseller Hosting</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Domains</h4>
+          <ul>
+            <li><a href="{{ url_for('main.domains') }}">Register Domain</a></li>
+            <li><a href="{{ url_for('main.domains') }}">Transfer Domain</a></li>
+            <li><a href="{{ url_for('main.domains') }}">Domain Pricing</a></li>
+          </ul>
+          <h4 style="margin-top:1.5rem">Resources</h4>
+          <ul>
+            <li><a href="{{ url_for('main.knowledge') }}">Knowledge Base</a></li>
+            <li><a href="{{ url_for('main.support') }}">Support Center</a></li>
+            <li><a href="{{ url_for('main.status_page') }}">Server Status</a></li>
+            <li><a href="{{ url_for('main.about') }}">About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="{{ url_for('main.support') }}">Live Chat</a></li>
+            <li><a href="{{ url_for('main.support') }}">Ticket System</a></li>
+            <li><a href="{{ url_for('main.support') }}">Discord</a></li>
+            <li><a href="{{ url_for('main.support') }}">Telegram</a></li>
+          </ul>
+          <h4 style="margin-top:1.5rem">Legal</h4>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">SLA Agreement</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p>Stay updated with the latest hosting tips and offers.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="your@email.com" class="form-control">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i></button>
+          </form>
+          <div class="footer-contact">
+            <p><i class="fas fa-envelope"></i> support@nexusviphost.com</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; {{ current_year }} NEXUS VIP HOST. All rights reserved. Premium Hosting Solutions.</p>
+        <div class="footer-payments">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-stripe"></i>
+          <i class="fab fa-bitcoin"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/effects/threeD.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/effects/animations.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/effects/particles.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/effects/dashboard.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

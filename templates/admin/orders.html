@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Orders - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Order Management{% endblock %}
+
+{% block content %}
+<div class="glass" style="padding:1.5rem;overflow-x:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+    <p>{{ orders.total }} total orders</p>
+    <div style="display:flex;gap:0.5rem">
+      <a href="{{ url_for('admin.orders') }}" class="btn btn-outline btn-sm {% if not status_filter %}active{% endif %}">All</a>
+      <a href="{{ url_for('admin.orders', status='pending') }}" class="btn btn-outline btn-sm {% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+      <a href="{{ url_for('admin.orders', status='active') }}" class="btn btn-outline btn-sm {% if status_filter == 'active' %}active{% endif %}">Active</a>
+      <a href="{{ url_for('admin.orders', status='suspended') }}" class="btn btn-outline btn-sm {% if status_filter == 'suspended' %}active{% endif %}">Suspended</a>
+    </div>
+  </div>
+  <table class="admin-table">
+    <thead><tr><th>ID</th><th>User</th><th>Plan</th><th>Amount</th><th>Billing</th><th>Status</th><th>Payment</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for order in orders.records %}
+      <tr>
+        <td>#{{ order.id }}</td>
+        <td>{{ order.user.username if order.user else 'N/A' }}</td>
+        <td>{{ order.plan.name if order.plan else 'N/A' }}</td>
+        <td>${{ '%.2f'|format(order.total_amount) }}</td>
+        <td>{{ order.billing_cycle }}</td>
+        <td><span class="status-badge status-{{ order.status }}">{{ order.status }}</span></td>
+        <td><span class="status-badge status-{{ order.payment_status }}">{{ order.payment_status }}</span></td>
+        <td>{{ order.created_at.strftime('%Y-%m-%d') }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('admin.update_order_status', order_id=order.id) }}" style="display:flex;gap:0.25rem">
+            <select name="status" class="form-control" style="width:auto;font-size:0.8rem;padding:0.25rem">
+              <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+              <option value="active" {% if order.status == 'active' %}selected{% endif %}>Active</option>
+              <option value="suspended" {% if order.status == 'suspended' %}selected{% endif %}>Suspend</option>
+              <option value="cancelled" {% if order.status == 'cancelled' %}selected{% endif %}>Cancel</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-xs">Update</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if orders.total_pages > 1 %}
+  <div class="pagination" style="margin-top:1rem">
+    {% if orders.has_prev %}<a href="?page={{ orders.page - 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn btn-outline btn-sm">Previous</a>{% endif %}
+    <span>Page {{ orders.page }} of {{ orders.total_pages }}</span>
+    {% if orders.has_next %}<a href="?page={{ orders.page + 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn btn-outline btn-sm">Next</a>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

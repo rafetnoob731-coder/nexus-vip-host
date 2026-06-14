@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+{% block title %}User #{{ user.id }} - NEXUS VIP HOST{% endblock %}
+{% block page_title %}User: {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="glass" style="padding:1.5rem;margin-bottom:2rem">
+  <div class="user-detail-header" style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:1rem">
+    <div style="display:flex;align-items:center;gap:1rem">
+      <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=6366f1&color=fff&size=64" alt="" style="border-radius:50%;width:64px;height:64px">
+      <div>
+        <h2>{{ user.full_name or user.username }}</h2>
+        <p style="color:var(--text-secondary)">{{ user.email }}</p>
+        <span class="role-badge role-{{ user.role }}">{{ user.role }}</span>
+        <span class="status-dot {{ 'online' if user.is_active else 'offline' }}"></span> {{ 'Active' if user.is_active else 'Inactive' }}
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+      <form method="POST" action="{{ url_for('admin.update_user_role', user_id=user.id) }}" style="display:flex;gap:0.5rem;align-items:center">
+        <select name="role" class="form-control" style="width:auto">
+          <option value="client" {% if user.role == 'client' %}selected{% endif %}>Client</option>
+          <option value="staff" {% if user.role == 'staff' %}selected{% endif %}>Staff</option>
+          <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">Update Role</button>
+      </form>
+      <form method="POST" action="{{ url_for('admin.toggle_user_status', user_id=user.id) }}">
+        <button type="submit" class="btn btn-outline btn-sm">{{ 'Deactivate' if user.is_active else 'Activate' }}</button>
+      </form>
+    </div>
+  </div>
+  <p style="margin-top:1rem;color:var(--text-secondary)">Joined: {{ user.created_at.strftime('%Y-%m-%d %H:%M') }} | Last Login: {{ user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else 'Never' }}</p>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+  <div class="glass" style="padding:1.5rem">
+    <h3 style="margin-bottom:1rem">Orders ({{ orders|length }})</h3>
+    {% if orders %}
+    <table class="admin-table">
+      <thead><tr><th>ID</th><th>Plan</th><th>Status</th><th>Amount</th><th>Date</th></tr></thead>
+      <tbody>
+        {% for o in orders %}
+        <tr><td>#{{ o.id }}</td><td>{{ o.plan.name if o.plan else 'N/A' }}</td><td><span class="status-badge status-{{ o.status }}">{{ o.status }}</span></td><td>${{ '%.2f'|format(o.total_amount) }}</td><td>{{ o.created_at.strftime('%Y-%m-%d') }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="color:var(--text-secondary)">No orders.</p>{% endif %}
+  </div>
+  <div class="glass" style="padding:1.5rem">
+    <h3 style="margin-bottom:1rem">Tickets ({{ tickets|length }})</h3>
+    {% if tickets %}
+    <table class="admin-table">
+      <thead><tr><th>ID</th><th>Subject</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+        {% for t in tickets %}
+        <tr><td>#{{ t.id }}</td><td>{{ t.subject }}</td><td><span class="status-badge status-{{ t.status }}">{{ t.status }}</span></td><td>{{ t.created_at.strftime('%Y-%m-%d') }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="color:var(--text-secondary)">No tickets.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

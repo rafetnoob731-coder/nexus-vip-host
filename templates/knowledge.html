@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Knowledge Base - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Knowledge <span class="gradient-text">Base</span></h1>
+    <p>Guides, tutorials, and documentation</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="kb-search glass">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search the knowledge base..." class="form-control" id="kbSearch" onkeyup="filterKnowledge(event)">
+  </div>
+
+  <div class="kb-grid" id="kbGrid">
+    <div class="kb-card glass" data-category="getting-started">
+      <i class="fas fa-rocket"></i>
+      <h3>Getting Started</h3>
+      <p>New to hosting? Start here with our beginner-friendly guides.</p>
+      <a href="#" class="kb-link">View Guides <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="kb-card glass" data-category="cpanel">
+      <i class="fas fa-cpanel"></i>
+      <h3>cPanel Tutorials</h3>
+      <p>Learn how to manage your hosting with cPanel and WHM.</p>
+      <a href="#" class="kb-link">View Tutorials <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="kb-card glass" data-category="security">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Security Guides</h3>
+      <p>Best practices for keeping your website secure and protected.</p>
+      <a href="#" class="kb-link">View Guides <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="kb-card glass" data-category="developer">
+      <i class="fas fa-code"></i>
+      <h3>Developer Docs</h3>
+      <p>API documentation and developer resources for integrations.</p>
+      <a href="#" class="kb-link">View Docs <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="kb-card glass" data-category="performance">
+      <i class="fas fa-tachometer-alt"></i>
+      <h3>Performance Tips</h3>
+      <p>Optimize your website for maximum speed and performance.</p>
+      <a href="#" class="kb-link">View Tips <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="kb-card glass" data-category="faq">
+      <i class="fas fa-question-circle"></i>
+      <h3>FAQs</h3>
+      <p>Frequently asked questions about our hosting services.</p>
+      <a href="#" class="kb-link">View FAQs <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section" style="margin-top:4rem">
+    <h2 class="section-title" style="text-align:center;margin-bottom:2rem">Frequently Asked <span class="gradient-text">Questions</span></h2>
+    <div class="faq-list">
+      <div class="faq-item glass">
+        <div class="faq-question">How fast is the deployment after payment? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Our automated system deploys most hosting plans within 30 seconds of payment confirmation. Dedicated servers may take up to 2 hours for setup and configuration.</div>
+      </div>
+      <div class="faq-item glass">
+        <div class="faq-question">Can I upgrade my plan later? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Absolutely! You can upgrade your hosting plan at any time. The price difference will be prorated, and there's no downtime during the upgrade process.</div>
+      </div>
+      <div class="faq-item glass">
+        <div class="faq-question">What kind of support do you offer? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">We offer 24/7/365 support via live chat, ticket system, Discord, and Telegram. Our average response time is under 2 minutes for live chat and under 30 minutes for tickets.</div>
+      </div>
+      <div class="faq-item glass">
+        <div class="faq-question">Do you offer a money-back guarantee? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Yes! We offer a 30-day money-back guarantee on all hosting plans. No questions asked. Domain registrations and dedicated servers have a 7-day refund policy.</div>
+      </div>
+      <div class="faq-item glass">
+        <div class="faq-question">Is my data backed up regularly? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Yes, we perform automated daily backups with 7-day retention. You can also create manual backups at any time through your control panel.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function filterKnowledge(e) {
+  const query = e.target.value.toLowerCase();
+  document.querySelectorAll('.kb-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}

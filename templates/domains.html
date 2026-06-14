@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Domain Registration - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Domain <span class="gradient-text">Registration</span></h1>
+    <p>Find your perfect domain name</p>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Domain Search -->
+  <div class="domain-search glass">
+    <div class="search-wrapper">
+      <div class="search-icon"><i class="fas fa-globe"></i></div>
+      <input type="text" id="domainInput" placeholder="Enter your domain name..." autocomplete="off">
+      <select id="domainTld">
+        <option value=".com">.com</option>
+        <option value=".net">.net</option>
+        <option value=".org">.org</option>
+        <option value=".io">.io</option>
+        <option value=".dev">.dev</option>
+        <option value=".app">.app</option>
+        <option value=".co">.co</option>
+        <option value=".store">.store</option>
+      </select>
+      <button class="btn btn-primary" id="domainSearchBtn"><i class="fas fa-search"></i> Search</button>
+    </div>
+    <div id="domainResults"></div>
+  </div>
+
+  <!-- Popular TLDs -->
+  <h2 class="section-title" style="text-align:center;margin:3rem 0 2rem">Popular <span class="gradient-text">TLDs</span></h2>
+  <div class="tld-grid">
+    <div class="tld-card glass"><span>.com</span><span class="tld-price">$9.99/yr</span></div>
+    <div class="tld-card glass"><span>.net</span><span class="tld-price">$11.99/yr</span></div>
+    <div class="tld-card glass"><span>.org</span><span class="tld-price">$10.99/yr</span></div>
+    <div class="tld-card glass"><span>.io</span><span class="tld-price">$34.99/yr</span></div>
+    <div class="tld-card glass"><span>.dev</span><span class="tld-price">$14.99/yr</span></div>
+    <div class="tld-card glass"><span>.app</span><span class="tld-price">$13.99/yr</span></div>
+    <div class="tld-card glass"><span>.co</span><span class="tld-price">$24.99/yr</span></div>
+    <div class="tld-card glass"><span>.store</span><span class="tld-price">$29.99/yr</span></div>
+    <div class="tld-card glass"><span>.tech</span><span class="tld-price">$19.99/yr</span></div>
+    <div class="tld-card glass"><span>.xyz</span><span class="tld-price">$3.99/yr</span></div>
+    <div class="tld-card glass"><span>.online</span><span class="tld-price">$7.99/yr</span></div>
+    <div class="tld-card glass"><span>.shop</span><span class="tld-price">$12.99/yr</span></div>
+  </div>
+
+  <!-- Domain Transfer -->
+  <div class="domain-transfer" style="margin-top:3rem">
+    <div class="transfer-content glass">
+      <div class="transfer-text">
+        <h2>Transfer Your Domain</h2>
+        <p>Moving from another provider? Transfer your domain to NEXUS VIP HOST and get a free year extension.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Free domain privacy</li>
+          <li><i class="fas fa-check"></i> Free DNS management</li>
+          <li><i class="fas fa-check"></i> Free email forwarding</li>
+          <li><i class="fas fa-check"></i> Easy transfer process</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Transfer Now <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="transfer-icon">
+        <i class="fas fa-exchange-alt"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchBtn = document.getElementById('domainSearchBtn');
+  const input = document.getElementById('domainInput');
+  const tld = document.getElementById('domainTld');
+  const results = document.getElementById('domainResults');
+
+  searchBtn.addEventListener('click', async function() {
+    const domain = input.value.trim();
+    if (!domain) { showToast('Please enter a domain name.', 'warning'); return; }
+
+    // Mock search
+    results.innerHTML = '<div style="text-align:center;padding:1rem"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+
+    setTimeout(() => {
+      const isAvailable = Math.random() > 0.4;
+      if (isAvailable) {
+        results.innerHTML = `
+          <div class="domain-result available">
+            <span><i class="fas fa-check-circle"></i> ${domain}${tld.value} is available!</span>
+            <span class="domain-price">$${(tld.value === '.io' ? 34.99 : tld.value === '.co' ? 24.99 : 9.99).toFixed(2)}/yr</span>
+            <button class="btn btn-primary btn-sm">Register</button>
+          </div>`;
+      } else {
+        results.innerHTML = `
+          <div class="domain-result taken">
+            <span><i class="fas fa-times-circle"></i> ${domain}${tld.value} is taken</span>
+            <span>Try: ${domain}${tld.value === '.com' ? '.net' : '.com'}</span>
+          </div>`;
+      }
+    }, 800);
+  });
+
+  input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') searchBtn.click();
+  });
+});
+</script>
+
+<style>
+.domain-result { display:flex; align-items:center; justify-content:space-between; padding:1rem; margin-top:1rem; border-radius:12px; gap:1rem; flex-wrap:wrap; }
+.domain-result.available { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); }
+.domain-result.taken { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); }
+.domain-result .fa-check-circle { color:#10b981; }
+.domain-result .fa-times-circle { color:#ef4444; }
+.domain-price { font-weight:700; color:var(--primary); }
+</style>
+{% endblock %}

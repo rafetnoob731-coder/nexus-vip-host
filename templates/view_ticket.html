@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Ticket #{{ ticket.id }} - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>Ticket #{{ ticket.id }} <span class="gradient-text">Details</span></h1>
+    <p>{{ ticket.subject }}</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="glass" style="padding:2rem;max-width:800px;margin:0 auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
+      <div>
+        <h2>{{ ticket.subject }}</h2>
+        <p style="color:var(--text-secondary);font-size:0.9rem">
+          {{ ticket.department }} | Priority: <span class="priority-badge priority-{{ ticket.priority }}">{{ ticket.priority }}</span>
+          | Status: <span class="status-badge status-{{ ticket.status }}">{{ ticket.status }}</span>
+        </p>
+      </div>
+      <span style="color:var(--text-secondary);font-size:0.85rem">{{ ticket.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+    </div>
+
+    <div class="ticket-message" style="background:var(--card-bg);padding:1.5rem;border-radius:12px;margin-bottom:2rem;border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+        <img src="https://ui-avatars.com/api/?name={{ ticket.user.username }}&background=6366f1&color=fff&size=32" alt="" style="border-radius:50%;width:32px;height:32px">
+        <strong>{{ ticket.user.username }}</strong>
+        <span style="color:var(--text-secondary);font-size:0.85rem">{{ ticket.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+      </div>
+      <p style="line-height:1.7">{{ ticket.message }}</p>
+    </div>
+
+    {% for response in responses %}
+    <div class="ticket-message" style="background:var(--card-bg);padding:1.5rem;border-radius:12px;margin-bottom:1rem;border:1px solid var(--border);{% if response.is_staff %}border-left:3px solid var(--primary){% endif %}">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+        <img src="https://ui-avatars.com/api/?name={{ response.responder.username }}&background={% if response.is_staff %}6366f1{% else %}10b981{% endif %}&color=fff&size=32" alt="" style="border-radius:50%;width:32px;height:32px">
+        <strong>{{ response.responder.username }}</strong>
+        {% if response.is_staff %}<span class="staff-badge">Staff</span>{% endif %}
+        <span style="color:var(--text-secondary);font-size:0.85rem">{{ response.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+      </div>
+      <p style="line-height:1.7">{{ response.message }}</p>
+    </div>
+    {% endfor %}
+
+    {% if ticket.status != 'closed' %}
+    <form method="POST" action="{{ url_for('main.respond_ticket', ticket_id=ticket.id) }}" style="margin-top:2rem">
+      <div class="form-group">
+        <label>Add Response</label>
+        <textarea name="message" class="form-control" rows="5" placeholder="Type your response..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Response</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.staff-badge { display:inline-block; padding:0.15rem 0.5rem; border-radius:4px; background:rgba(99,102,241,0.15); color:#6366f1; font-size:0.75rem; font-weight:600; text-transform:uppercase; }
+</style>
+{% endblock %}

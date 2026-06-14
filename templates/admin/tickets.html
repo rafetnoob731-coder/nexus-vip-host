@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% block title %}Tickets - NEXUS VIP HOST{% endblock %}
+{% block page_title %}Ticket Management{% endblock %}
+
+{% block content %}
+<div class="glass" style="padding:1.5rem;overflow-x:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+    <p>{{ tickets.total }} total tickets</p>
+    <div style="display:flex;gap:0.5rem">
+      <a href="{{ url_for('admin.tickets') }}" class="btn btn-outline btn-sm {% if not status_filter %}active{% endif %}">All</a>
+      <a href="{{ url_for('admin.tickets', status='open') }}" class="btn btn-outline btn-sm {% if status_filter == 'open' %}active{% endif %}">Open</a>
+      <a href="{{ url_for('admin.tickets', status='pending') }}" class="btn btn-outline btn-sm {% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+      <a href="{{ url_for('admin.tickets', status='resolved') }}" class="btn btn-outline btn-sm {% if status_filter == 'resolved' %}active{% endif %}">Resolved</a>
+      <a href="{{ url_for('admin.tickets', status='closed') }}" class="btn btn-outline btn-sm {% if status_filter == 'closed' %}active{% endif %}">Closed</a>
+    </div>
+  </div>
+  <table class="admin-table">
+    <thead><tr><th>ID</th><th>User</th><th>Subject</th><th>Department</th><th>Priority</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for ticket in tickets.records %}
+      <tr>
+        <td>#{{ ticket.id }}</td>
+        <td>{{ ticket.user.username if ticket.user else 'N/A' }}</td>
+        <td>{{ ticket.subject }}</td>
+        <td>{{ ticket.department }}</td>
+        <td><span class="priority-badge priority-{{ ticket.priority }}">{{ ticket.priority }}</span></td>
+        <td><span class="status-badge status-{{ ticket.status }}">{{ ticket.status }}</span></td>
+        <td>{{ ticket.created_at.strftime('%Y-%m-%d') }}</td>
+        <td><a href="{{ url_for('admin.ticket_detail', ticket_id=ticket.id) }}" class="btn btn-outline btn-xs">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if tickets.total_pages > 1 %}
+  <div class="pagination" style="margin-top:1rem">
+    {% if tickets.has_prev %}<a href="?page={{ tickets.page - 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn btn-outline btn-sm">Previous</a>{% endif %}
+    <span>Page {{ tickets.page }} of {{ tickets.total_pages }}</span>
+    {% if tickets.has_next %}<a href="?page={{ tickets.page + 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn btn-outline btn-sm">Next</a>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

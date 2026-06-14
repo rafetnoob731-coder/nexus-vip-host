@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}My Tickets - NEXUS VIP HOST{% endblock %}
+
+{% block content %}
+<div class="page-banner">
+  <div class="container">
+    <h1>My <span class="gradient-text">Tickets</span></h1>
+    <p>View and manage your support requests</p>
+  </div>
+</div>
+
+<div class="container">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:1.5rem">
+    <a href="{{ url_for('main.create_ticket') }}" class="btn btn-primary"><i class="fas fa-plus"></i> New Ticket</a>
+  </div>
+
+  <div class="glass" style="padding:1.5rem;overflow-x:auto">
+    {% if tickets %}
+    <table class="tickets-table">
+      <thead>
+        <tr><th>ID</th><th>Subject</th><th>Department</th><th>Priority</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets %}
+        <tr>
+          <td>#{{ ticket.id }}</td>
+          <td>{{ ticket.subject }}</td>
+          <td>{{ ticket.department }}</td>
+          <td><span class="priority-badge priority-{{ ticket.priority }}">{{ ticket.priority }}</span></td>
+          <td><span class="status-badge status-{{ ticket.status }}">{{ ticket.status }}</span></td>
+          <td>{{ ticket.created_at.strftime('%Y-%m-%d') }}</td>
+          <td><a href="{{ url_for('main.view_ticket', ticket_id=ticket.id) }}" class="btn btn-outline btn-xs">View</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="text-align:center;padding:2rem;color:var(--text-secondary)">No tickets found. <a href="{{ url_for('main.create_ticket') }}">Create a ticket</a> to get support.</p>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.tickets-table { width:100%; border-collapse:collapse; }
+.tickets-table th, .tickets-table td { padding:0.75rem 1rem; text-align:left; border-bottom:1px solid var(--border); }
+.tickets-table th { font-weight:600; color:var(--text-secondary); font-size:0.85rem; text-transform:uppercase; }
+.tickets-table tbody tr:hover { background:var(--hover-bg); }
+</style>
+{% endblock %}
