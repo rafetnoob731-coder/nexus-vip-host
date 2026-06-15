@@ -230,7 +230,7 @@
             <div class="service-card-detail">Created {{ order.created_at.strftime('%b %d, %Y') }}</div>
             <div class="service-card-stats">
               <div class="service-card-stat">
-                <div class="service-card-stat-value">${{ "%.2f"|format(order.amount) }}</div>
+                <div class="service-card-stat-value">${{ "%.2f"|format(order.total_amount) }}</div>
                 <div class="service-card-stat-label">Price</div>
               </div>
               <div class="service-card-stat">
