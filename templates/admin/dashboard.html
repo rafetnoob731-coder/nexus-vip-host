@@ -4,42 +4,42 @@
 
 {% block content %}
 <div class="admin-stats-grid">
-  <div class="admin-stat-card glass tilt-card" data-reveal>
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0s">
     <i class="fas fa-users"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.total_users }}">0</span>
       <span class="stat-label">Total Users</span>
     </div>
   </div>
-  <div class="admin-stat-card glass tilt-card" data-reveal data-reveal-delay="50">
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0.05s">
     <i class="fas fa-shopping-cart"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.total_orders }}">0</span>
       <span class="stat-label">Total Orders</span>
     </div>
   </div>
-  <div class="admin-stat-card glass tilt-card" data-reveal data-reveal-delay="100">
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0.1s">
     <i class="fas fa-server"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.active_services }}">0</span>
       <span class="stat-label">Active Services</span>
     </div>
   </div>
-  <div class="admin-stat-card glass tilt-card" data-reveal data-reveal-delay="150">
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0.15s">
     <i class="fas fa-dollar-sign"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.total_revenue|int }}">0</span>
       <span class="stat-label">Total Revenue</span>
     </div>
   </div>
-  <div class="admin-stat-card glass tilt-card" data-reveal data-reveal-delay="200">
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0.2s">
     <i class="fas fa-ticket-alt"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.open_tickets }}">0</span>
       <span class="stat-label">Open Tickets</span>
     </div>
   </div>
-  <div class="admin-stat-card glass tilt-card" data-reveal data-reveal-delay="250">
+  <div class="admin-stat-card glass tilt-card card-entrance" style="animation-delay:0.25s">
     <i class="fas fa-layer-group"></i>
     <div class="stat-info">
       <span class="stat-number animate-counter" data-target="{{ stats.total_plans }}">0</span>
@@ -48,7 +48,7 @@
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem">
+<div class="dashboard-charts-grid" style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem">
   <!-- Revenue Chart -->
   <div class="dashboard-card" data-reveal>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -73,7 +73,7 @@
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
+<div class="dashboard-charts-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
   <!-- Orders Distribution -->
   <div class="dashboard-card" data-reveal>
     <h3 style="margin-bottom:1rem">Order <span class="gradient-text">Distribution</span></h3>
